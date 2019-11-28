@@ -94,15 +94,15 @@
 
 
 
-<meta name="description" content="本实例适用场景 通过该端口的数据禁止访问指定目录  生产环境1CentOS Linux release 7.7.1908 (Core)2nginx version: nginx&amp;#x2F;1.16.134服务器2台:5Nginx1: 172.16.1.111 转发服务器6Nginx2: 172.16.1.112 目标服务器78Nginx2网站目录结构9[root@bogon nginx]# tre">
+<meta name="description" content="本实例适用场景 通过该端口的数据禁止访问指定目录">
 <meta name="keywords" content="CentOS7,目录过滤">
 <meta property="og:type" content="article">
 <meta property="og:title" content="03.Nginx目录过滤">
 <meta property="og:url" content="http:&#x2F;&#x2F;speedshark.github.io&#x2F;2019&#x2F;11&#x2F;28&#x2F;Nignx&#x2F;03.locationrewrite&#x2F;index.html">
 <meta property="og:site_name" content="SpeedShark">
-<meta property="og:description" content="本实例适用场景 通过该端口的数据禁止访问指定目录  生产环境1CentOS Linux release 7.7.1908 (Core)2nginx version: nginx&amp;#x2F;1.16.134服务器2台:5Nginx1: 172.16.1.111 转发服务器6Nginx2: 172.16.1.112 目标服务器78Nginx2网站目录结构9[root@bogon nginx]# tre">
+<meta property="og:description" content="本实例适用场景 通过该端口的数据禁止访问指定目录">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-28T13:07:22.124Z">
+<meta property="og:updated_time" content="2019-11-28T13:21:01.110Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -320,7 +320,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-28T21:07:22+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-28T21:21:01+08:00">
                 2019-11-28
               </time>
             
@@ -398,6 +398,8 @@
         <h3 id="本实例适用场景"><a href="#本实例适用场景" class="headerlink" title="本实例适用场景"></a>本实例适用场景</h3><blockquote>
 <p>通过该端口的数据禁止访问指定目录</p>
 </blockquote>
+<a id="more"></a>
+
 <h3 id="生产环境"><a href="#生产环境" class="headerlink" title="生产环境"></a>生产环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">CentOS Linux release 7.7.1908 (Core)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">nginx version: nginx&#x2F;1.16.1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">服务器2台:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Nginx1: 172.16.1.111 转发服务器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">Nginx2: 172.16.1.112 目标服务器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">Nginx2网站目录结构</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">[root@bogon nginx]# tree html&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">html&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">├── 50x.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">├── baidu</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">│   └── index.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">├── baidu.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">├── index.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">└── index.html.bak</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">要求:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">用户通过 http:&#x2F;&#x2F;172.16.1.111:8098 可以访问 Nginx2所有网站</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">除了 http:&#x2F;&#x2F;172.16.1.112&#x2F;baidu.html网页</span></pre></td></tr></table></figure>
 
 <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">location [&#x3D;|~|~*|^~|@] &#x2F;uri&#x2F; &#123; … &#125;</span></pre></td></tr></table></figure>
@@ -451,15 +453,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/11/28/Nignx/02.streamproxy/" rel="next" title="02.Nginx正向代理">
-                <i class="fa fa-chevron-left"></i> 02.Nginx正向代理
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/28/Nignx/01.Install/" rel="prev" title="01.NginxInstall">
+                01.NginxInstall <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
