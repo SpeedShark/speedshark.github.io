@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CentOS7,SElinux,Nginx," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="安全生产是必须的(上) 大部分运维人员为了省事放弃安全关闭SElinux、Firewalld 所谓的为了提高性能只是片面的，运维安全应该放在首位">
+<meta name="keywords" content="CentOS7,SElinux,Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="04.NginxSElinux安全配置(上)">
+<meta property="og:url" content="http:&#x2F;&#x2F;speedshark.github.io&#x2F;2019&#x2F;12&#x2F;05&#x2F;Nignx&#x2F;04.NginxSElinux&#x2F;index.html">
+<meta property="og:site_name" content="SpeedShark">
+<meta property="og:description" content="安全生产是必须的(上) 大部分运维人员为了省事放弃安全关闭SElinux、Firewalld 所谓的为了提高性能只是片面的，运维安全应该放在首位">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-05T12:56:55.349Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://speedshark.github.io/2019/12/05/Nignx/04.NginxSElinux/"/>
+
+
+
+
+
+  <title>04.NginxSElinux安全配置(上) | SpeedShark</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SpeedShark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Easier to manage enterprise IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/05/Nignx/04.NginxSElinux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LeoShi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SpeedShark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">04.NginxSElinux安全配置(上)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-05T20:56:55+08:00">
+                2019-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/CentOS7/" itemprop="url" rel="index">
+                    <span itemprop="name">CentOS7</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Nginx/" itemprop="url" rel="index">
+                    <span itemprop="name">Nginx</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/CentOS7/SElinux/" itemprop="url" rel="index">
+                    <span itemprop="name">SElinux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="安全生产是必须的-上"><a href="#安全生产是必须的-上" class="headerlink" title="安全生产是必须的(上)"></a>安全生产是必须的(上)</h2><blockquote>
+<p>大部分运维人员为了省事放弃安全关闭SElinux、Firewalld</p>
+<p>所谓的为了提高性能只是片面的，运维安全应该放在首位</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="生产环境"><a href="#生产环境" class="headerlink" title="生产环境"></a>生产环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">CentOS Linux release 7.7.1908 (Core)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">nginx version: nginx&#x2F;1.16.1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">文件目录：</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;share&#x2F;nginx&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">└── html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    ├── 50x.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    ├── index.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    └── nginxproxy.sh</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&#x2F;www</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">├── baidu.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">└── index.html</span></pre></td></tr></table></figure>
+
+<h3 id="从Nginx重启报错开始"><a href="#从Nginx重启报错开始" class="headerlink" title="从Nginx重启报错开始"></a>从Nginx重启报错开始</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-----无数得人看见下面的问题就脑袋疼-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# systemctl restart nginx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Job for nginx.service failed because the control process exited with error code. See &quot;systemctl status nginx.service&quot; and &quot;journalctl -xe&quot; for details.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">-----服务报错信息-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# journalctl -xe         </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:02:15 v2ray systemd[1]: nginx.service: control process exited, code&#x3D;exited status&#x3D;1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:02:15 v2ray systemd[1]: Failed to start nginx - high performance web server.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">-- Subject: Unit nginx.service has failed</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">-- Defined-By: systemd</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">-- Support: http:&#x2F;&#x2F;lists.freedesktop.org&#x2F;mailman&#x2F;listinfo&#x2F;systemd-devel</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">-- </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">-- Unit nginx.service has failed.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">-- </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">-- The result is failed.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:02:15 v2ray systemd[1]: Unit nginx.service entered failed state.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:02:15 v2ray systemd[1]: nginx.service failed.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:02:15 v2ray polkitd[655]: Unregistered Authentication Agent for unix-process:1249:5240 (system bus name :</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:09:47 v2ray polkitd[655]: Registered Authentication Agent for unix-process:1266:50465 (system bus name :1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:09:47 v2ray systemd[1]: Starting nginx - high performance web server...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">-- Subject: Unit nginx.service has begun start-up</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">-- Defined-By: systemd</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">-- Support: http:&#x2F;&#x2F;lists.freedesktop.org&#x2F;mailman&#x2F;listinfo&#x2F;systemd-devel</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">-- </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">-- Unit nginx.service has begun starting up.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:09:47 v2ray kernel: type&#x3D;1400 audit(1575022187.459:6): avc:  denied  &#123; name_bind &#125; for  pid&#x3D;1272 comm&#x3D;&quot;ng</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:09:47 v2ray nginx[1272]: nginx: [emerg] bind() to 0.0.0.0:8098 failed (13: Permission denied)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:09:47 v2ray systemd[1]: nginx.service: control process exited, code&#x3D;exited status&#x3D;1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:09:47 v2ray systemd[1]: Failed to start nginx - high performance web server.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">-- Subject: Unit nginx.service has failed</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">-- Defined-By: systemd</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">-- Support: http:&#x2F;&#x2F;lists.freedesktop.org&#x2F;mailman&#x2F;listinfo&#x2F;systemd-devel</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">-- </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">-- Unit nginx.service has failed.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">-- </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">-- The result is failed.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:09:47 v2ray systemd[1]: Unit nginx.service entered failed state.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:09:47 v2ray systemd[1]: nginx.service failed.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:09:47 v2ray polkitd[655]: Unregistered Authentication Agent for unix-process:1266:50465 (system bus name </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">lines 2002-2034&#x2F;2034 (END)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">-----排查nginx日志 &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log -------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# cat &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">2019&#x2F;11&#x2F;29 04:26:40 [notice] 1508#1508: signal process started</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">2019&#x2F;11&#x2F;29 04:52:38 [emerg] 1609#1609: duplicate location &quot;&#x2F;50x.html&quot; in &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;app.conf:23</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">2019&#x2F;11&#x2F;29 04:53:11 [emerg] 1619#1619: duplicate location &quot;&#x2F;50x.html&quot; in &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;app.conf:23</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">2019&#x2F;11&#x2F;29 04:54:09 [notice] 1621#1621: signal process started</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">2019&#x2F;11&#x2F;29 04:55:40 [notice] 1625#1625: signal process started</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">2019&#x2F;11&#x2F;29 18:01:28 [emerg] 863#863: bind() to 0.0.0.0:8098 failed (13: Permission denied)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">2019&#x2F;11&#x2F;29 18:02:15 [emerg] 1255#1255: bind() to 0.0.0.0:8098 failed (13: Permission denied)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">2019&#x2F;11&#x2F;29 18:09:47 [emerg] 1272#1272: bind() to 0.0.0.0:8098 failed (13: Permission denied)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">-----13: Permission denied 权限问题开启SELinux-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line"># 看到这往往大家会直接关闭SElinux，其实这样处理是不安全的。</span></pre></td></tr></table></figure>
+<h4 id="查看SElinux状态"><a href="#查看SElinux状态" class="headerlink" title="查看SElinux状态"></a>查看SElinux状态</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-----开启状态-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[root@v2ray www]# getenforce</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Enforcing</span></pre></td></tr></table></figure>
+<h4 id="修改SELinux配置，让Nginx更安全"><a href="#修改SELinux配置，让Nginx更安全" class="headerlink" title="修改SELinux配置，让Nginx更安全"></a>修改SELinux配置，让Nginx更安全</h4><p><a href="https://speedshark.github.io/2019/11/29/Linux/02.SElinux/">semanage安装</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-----查看当前SElinux支持的端口没有8098啊-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# semanage port -l | grep http_port_t</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">http_port_t                    tcp      80, 81, 443, 488, 8008, 8009, 8443, 9000</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">pegasus_http_port_t            tcp      5988</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">-----添加8098-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# semanage port -a -t http_port_t  -p tcp 8098</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# semanage port -l | grep http</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">http_cache_port_t              tcp      8080, 8118, 8123, 10001-10010</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">http_cache_port_t              udp      3130</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">http_port_t                    tcp      8098, 80, 81, 443, 488, 8008, 8009, 8443, 9000</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">pegasus_http_port_t            tcp      5988</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">pegasus_https_port_t           tcp      5989</span></pre></td></tr></table></figure>
+
+<h4 id="命令详解"><a href="#命令详解" class="headerlink" title="命令详解"></a>命令详解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-a, --add             Add a record of the port object type</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">-t TYPE, --type TYPE  SELinux Type for the object</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">-p PROTO, --proto PROTO</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">                        Protocol for the specified port (tcp|udp) or internet</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">                        protocol version for the specified node (ipv4|ipv6).</span></pre></td></tr></table></figure>
+
+<h4 id="见证一下奇迹"><a href="#见证一下奇迹" class="headerlink" title="见证一下奇迹"></a>见证一下奇迹</h4><blockquote>
+<p>SElinux 真的那么复杂吗？</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# systemctl restart nginx              </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# systemctl status nginx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">● nginx.service - nginx - high performance web server</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">   Loaded: loaded (&#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;nginx.service; enabled; vendor preset: disabled)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">   Active: active (running) since Fri 2019-11-29 18:50:07 CST; 24s ago</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">     Docs: http:&#x2F;&#x2F;nginx.org&#x2F;en&#x2F;docs&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">  Process: 1464 ExecStart&#x3D;&#x2F;usr&#x2F;sbin&#x2F;nginx -c &#x2F;etc&#x2F;nginx&#x2F;nginx.conf (code&#x3D;exited, status&#x3D;0&#x2F;SUCCESS)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">   CGroup: &#x2F;system.slice&#x2F;nginx.service</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">           ├─1465 nginx: master process &#x2F;usr&#x2F;sbin&#x2F;nginx -c &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">           └─1466 nginx: worker process</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:50:07 v2ray systemd[1]: Starting nginx - high performance web server...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:50:07 v2ray systemd[1]: Can&#39;t open PID file &#x2F;var&#x2F;run&#x2F;nginx.pid (yet?) after start: No such file ...ectory</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">Nov 29 18:50:07 v2ray systemd[1]: Started nginx - high performance web server.</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span></pre></td></tr></table></figure>
+
+<h3 id="高兴地太早了-网页也挂了啊403"><a href="#高兴地太早了-网页也挂了啊403" class="headerlink" title="高兴地太早了,网页也挂了啊403"></a>高兴地太早了,网页也挂了啊403</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ curl http:&#x2F;&#x2F;172.16.1.111     </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&lt;head&gt;&lt;title&gt;403 Forbidden&lt;&#x2F;title&gt;&lt;&#x2F;head&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&lt;center&gt;&lt;h1&gt;403 Forbidden&lt;&#x2F;h1&gt;&lt;&#x2F;center&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&lt;hr&gt;&lt;center&gt;nginx&#x2F;1.16.1&lt;&#x2F;center&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;body&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;html&gt;</span></pre></td></tr></table></figure>
+
+<h4 id="继续填坑之路"><a href="#继续填坑之路" class="headerlink" title="继续填坑之路"></a>继续填坑之路</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# cat &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">-----13: Permission denied 啥也别说了SElinux-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">2019&#x2F;11&#x2F;29 19:05:27 [error] 1649#1649: *1 &quot;&#x2F;www&#x2F;index.html&quot; is forbidden (13: Permission denied), client: 172.16.1.1, server: localhost, request: &quot;GET &#x2F; HTTP&#x2F;1.1&quot;, host: &quot;172.16.1.111&quot;</span></pre></td></tr></table></figure>
+
+<h4 id="SElinux-文件定义"><a href="#SElinux-文件定义" class="headerlink" title="SElinux 文件定义"></a>SElinux 文件定义</h4><blockquote>
+<p>SElinux运行http访问的文件类型httpd_sys_content_t</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-----先查看SElinux可以访问的文件类型-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# ls -Z &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">-rw-r--r--. root root system_u:object_r:httpd_sys_content_t:s0 50x.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">-rw-r--r--. root root system_u:object_r:httpd_sys_content_t:s0 index.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">-rw-r--r--. root root system_u:object_r:httpd_sys_content_t:s0 nginxproxy.sh</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">-----再看看我们自己的网站文件类型default_t-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# ls -Z &#x2F;www&#x2F;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">-rw-r--r--. root root unconfined_u:object_r:default_t:s0 index.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">-----找到原因了修改一下就OK-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"># 先添加标签</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# semanage fcontext -a -t httpd_sys_content_t &#39;&#x2F;www(&#x2F;.*)?&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"># 将文件恢复为默认值</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# restorecon -Rv &#x2F;www</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">-----验证结果-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"># 规则标签验证</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# semanage fcontext -l | grep &#39;^&#x2F;www&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">&#x2F;www(&#x2F;.*)?                                         all files          system_u:object_r:httpd_sys_content_t:s0 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">&#x2F;www                                               all files          system_u:object_r:httpd_sys_content_t:s0 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">&#x2F;www&#x2F;index.html                                    all files          system_u:object_r:httpd_sys_content_t:s0 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"># 文件验证</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">[root@v2ray ~]# ls -Z &#x2F;www         </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">-rw-r--r--. root root unconfined_u:object_r:httpd_sys_content_t:s0 index.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"># 网站访问验证</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">$ curl http:&#x2F;&#x2F;172.16.1.111</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">&lt;head&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">&lt;title&gt;Welcome to nginx!&lt;&#x2F;title&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    body &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        width: 35em;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">        margin: 0 auto;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">        font-family: Tahoma, Verdana, Arial, sans-serif;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;style&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;head&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">&lt;h1&gt;Welcome to nginx!&lt;&#x2F;h1&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">&lt;p&gt;If you see this page, the nginx web server is successfully installed and</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">working. Further configuration is required.&lt;&#x2F;p&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">&lt;p&gt;For online documentation and support please refer to</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;nginx.org&#x2F;&quot;&gt;nginx.org&lt;&#x2F;a&gt;.&lt;br&#x2F;&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line">Commercial support is available at</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;http:&#x2F;&#x2F;nginx.com&#x2F;&quot;&gt;nginx.com&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">&lt;p&gt;&lt;em&gt;Thank you for using nginx.&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;body&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">&lt;&#x2F;html&gt;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">-----新增文件自动应用标签-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">[root@v2ray www]# touch baidu.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">[root@v2ray www]# ls -Z</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">-rw-r--r--. root root unconfined_u:object_r:httpd_sys_content_t:s0 baidu.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line">-rw-r--r--. root root unconfined_u:object_r:httpd_sys_content_t:s0 index.html</span></pre></td></tr></table></figure>
+
+<h3 id="一键脚本"><a href="#一键脚本" class="headerlink" title="一键脚本"></a>一键脚本</h3><blockquote>
+<p>默认安装完系统SElinux是开启的</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">cat &gt; nginxselinux.sh &lt;&lt;&#39;EOF&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"># 修改以下Nginx的端口，多条复制</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">semanage port -a -t http_port_t  -p tcp 8098</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"># 修改以下Nginx的连续端口范围</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">#semanage port -a -t http_port_t  -p tcp 8098-8099</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"># 修改网站路径标签，多条复制</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">semanage fcontext -a -t httpd_sys_content_t &#39;&#x2F;www(&#x2F;.*)?&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">EOF</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"># 重启Nginx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">systemc restart nginx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">bash nginxselinux.sh</span></pre></td></tr></table></figure>
+
+<h3 id="SELinux让你的系统更安全"><a href="#SELinux让你的系统更安全" class="headerlink" title="SELinux让你的系统更安全"></a>SELinux让你的系统更安全</h3><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="https://www.nginx.com/blog/using-nginx-plus-with-selinux/" target="_blank" rel="noopener">NginxSelinux</a></p>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CentOS7/" rel="tag"># CentOS7</a>
+          
+            <a href="/tags/SElinux/" rel="tag"># SElinux</a>
+          
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/04/Nignx/09.NginxLoadBalance/" rel="next" title="07.Nginx负载均衡">
+                <i class="fa fa-chevron-left"></i> 07.Nginx负载均衡
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/06/Linux/05.lvm/" rel="prev" title="05.lvm卷管理">
+                05.lvm卷管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="LeoShi" />
+          <p class="site-author-name" itemprop="name">LeoShi</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安全生产是必须的-上"><span class="nav-text">安全生产是必须的(上)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生产环境"><span class="nav-text">生产环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从Nginx重启报错开始"><span class="nav-text">从Nginx重启报错开始</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看SElinux状态"><span class="nav-text">查看SElinux状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改SELinux配置，让Nginx更安全"><span class="nav-text">修改SELinux配置，让Nginx更安全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命令详解"><span class="nav-text">命令详解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#见证一下奇迹"><span class="nav-text">见证一下奇迹</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高兴地太早了-网页也挂了啊403"><span class="nav-text">高兴地太早了,网页也挂了啊403</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#继续填坑之路"><span class="nav-text">继续填坑之路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SElinux-文件定义"><span class="nav-text">SElinux 文件定义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一键脚本"><span class="nav-text">一键脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SELinux让你的系统更安全"><span class="nav-text">SELinux让你的系统更安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-text">END</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LeoShi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+  本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+  <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+  有<span id="busuanzi_value_site_uv"></span>人看过我的博客啦
+</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -289,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/02/Nignx/FAQ.Keepalive%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/07/MacOS/01.telnet/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LeoShi">
@@ -308,7 +308,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/02/Nignx/FAQ.Keepalive%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" itemprop="url">Keepalived报错/etc/keepalived/monitor_nginx.sh exited due to signal 15</a></h1>
+                <a class="post-title-link" href="/2019/12/07/MacOS/01.telnet/" itemprop="url">Telnet报错Kerberos No default realm defined for Kerberos!</a></h1>
         
 
         <div class="post-meta">
@@ -320,8 +320,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-02T23:20:50+08:00">
-                2019-12-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-07T14:11:27+08:00">
+                2019-12-07
               </time>
             
 
@@ -354,8 +354,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/FAQ/Keepalived/" itemprop="url" rel="index">
-                    <span itemprop="name">Keepalived</span>
+                  <a href="/categories/FAQ/MacOS/" itemprop="url" rel="index">
+                    <span itemprop="name">MacOS</span>
                   </a>
                 </span>
 
@@ -394,10 +394,12 @@
       
         
           
-            <h3 id="Keepalived报错"><a href="#Keepalived报错" class="headerlink" title="Keepalived报错"></a>Keepalived报错</h3><p>Dec  3 04:16:43 nginx1 Keepalived_vrrp[1010]: /etc/keepalived/monitor_nginx.sh exited due to signal 15</p>
-<h3 id="配置文件冲突"><a href="#配置文件冲突" class="headerlink" title="配置文件冲突"></a>配置文件冲突</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;keepalived&#x2F;keepalived.conf</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"># 检测时间间隔要大于脚本sleep时间</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">interval 2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;keepalived&#x2F;monitor_nginx.sh</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">run&#x3D;&#96;ps -C nginx --no-header | wc -l&#96;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">if [ $run -eq 0 ]; then</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    systemctl stop nginx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    sleep 1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    systemctl restart nginx</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    sleep 2 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    if [ &#96;ps -C nginx --no-header | wc -l&#96; -eq 0 ]; then</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        systemctl stop keepalived</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    fi</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">fi</span></pre></td></tr></table></figure>
+            <h3 id="MacOS连接cisco交换机报错"><a href="#MacOS连接cisco交换机报错" class="headerlink" title="MacOS连接cisco交换机报错"></a>MacOS连接cisco交换机报错</h3><p>Trying 172.2.0.73…<br>Connected to 172-2-0-73.lightspeed.dybhfl.sbcglobal.net.<br>Escape character is ‘^]’.</p>
+<p>User Access Verification</p>
+<p>Password: Kerberos: No default realm defined for Kerberos!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-----创建~&#x2F;.telnetrc文件即可-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">echo &#39;default unset autologin&#39; &gt; ~&#x2F;.telnetrc</span></pre></td></tr></table></figure>
 
-
+<p>##END</p>
 
           
         
@@ -446,7 +448,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/02/Nignx/07.keepalivenginx/">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/06/Nexus3/02.NexusLocalYum/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LeoShi">
@@ -465,7 +467,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/02/Nignx/07.keepalivenginx/" itemprop="url">06.Keepalive 高可用</a></h1>
+                <a class="post-title-link" href="/2019/12/06/Nexus3/02.NexusLocalYum/" itemprop="url">02.Nexus3配置本地Yum</a></h1>
         
 
         <div class="post-meta">
@@ -477,8 +479,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-02T23:05:53+08:00">
-                2019-12-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-06T18:42:49+08:00">
+                2019-12-06
               </time>
             
 
@@ -511,8 +513,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/CentOS7/" itemprop="url" rel="index">
-                    <span itemprop="name">CentOS7</span>
+                  <a href="/categories/Linux/Nexus3/" itemprop="url" rel="index">
+                    <span itemprop="name">Nexus3</span>
                   </a>
                 </span>
 
@@ -522,8 +524,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/Keepalive/" itemprop="url" rel="index">
-                    <span itemprop="name">Keepalive</span>
+                  <a href="/categories/Linux/Yum/" itemprop="url" rel="index">
+                    <span itemprop="name">Yum</span>
                   </a>
                 </span>
 
@@ -561,12 +563,179 @@
 
       
         
-          <h3 id="生产环境一定是高可用环境"><a href="#生产环境一定是高可用环境" class="headerlink" title="生产环境一定是高可用环境"></a>生产环境一定是高可用环境</h3><blockquote>
-<p>keepalive实现IP的漂移，做到High Available，确保nginx业务高可用<br>本实例可在生产环境一键无感知添加，先启用MASTER，后启用多个BACKUP</p>
+          
+            <h3 id="Nexus3系统版本"><a href="#Nexus3系统版本" class="headerlink" title="Nexus3系统版本"></a>Nexus3系统版本</h3><blockquote>
+<p>Sonatype Nexus Repository Manager OSS 3.19.1-01</p>
 </blockquote>
+<h3 id="创建存储"><a href="#创建存储" class="headerlink" title="创建存储"></a>创建存储</h3><p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/eff38b1d.png" alt></p>
+<p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/11e21f7e.png" alt></p>
+<p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/3bf4cbf3.png" alt></p>
+<p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/0a8578b9.png" alt></p>
+<h3 id="使用http代理"><a href="#使用http代理" class="headerlink" title="使用http代理"></a>使用http代理</h3><p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/f26f4447.png" alt></p>
+<p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/4c5c0c01.png" alt></p>
+<h3 id="创建Yum"><a href="#创建Yum" class="headerlink" title="创建Yum"></a>创建Yum</h3><p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/8231b7e1.png" alt></p>
+<p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/9c2ec47a.png" alt></p>
+<p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/233001eb.png" alt></p>
+<p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/0bf07d06.png" alt></p>
+<p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/ec753a17.png" alt></p>
+<h3 id="健康检查"><a href="#健康检查" class="headerlink" title="健康检查"></a>健康检查</h3><p><img src="/2019/12/06/Nexus3/02.NexusLocalYum/e4fd4197.png" alt></p>
+<h3 id="完成"><a href="#完成" class="headerlink" title="完成"></a>完成</h3><h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/06/Nexus3/01.install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LeoShi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SpeedShark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/06/Nexus3/01.install/" itemprop="url">01.Nexus3安装部署</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-06T12:25:40+08:00">
+                2019-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Nexus3/" itemprop="url" rel="index">
+                    <span itemprop="name">Nexus3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="硬件安装环境"><a href="#硬件安装环境" class="headerlink" title="硬件安装环境"></a>硬件安装环境</h3><p><a href="https://help.sonatype.com/repomanager3/system-requirements#SystemRequirements-CPU" target="_blank" rel="noopener">官方文档(英)</a></p>
+<h4 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h4><p>Performance is primarily bounded by IO (disk and network) rather than CPU. Available CPUs will impact longer running operations and also the thread allocation algorithms of the web container.<br>Minimum CPUs: 4 最少4Core<br>Recommended CPUs: 8+</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/12/02/Nignx/07.keepalivenginx/#more" rel="contents">
+            <a class="btn" href="/2019/12/06/Nexus3/01.install/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -617,7 +786,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/02/Nignx/cluserinfo/">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/06/Docker/01.install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LeoShi">
@@ -636,7 +805,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/02/Nignx/cluserinfo/" itemprop="url">集群分类</a></h1>
+                <a class="post-title-link" href="/2019/12/06/Docker/01.install/" itemprop="url">01.Docker安装部署</a></h1>
         
 
         <div class="post-meta">
@@ -648,8 +817,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-02T18:18:56+08:00">
-                2019-12-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-06T11:43:03+08:00">
+                2019-12-06
               </time>
             
 
@@ -682,8 +851,19 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/Cluster/" itemprop="url" rel="index">
-                    <span itemprop="name">Cluster</span>
+                  <a href="/categories/Linux/CentOS7/" itemprop="url" rel="index">
+                    <span itemprop="name">CentOS7</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
                   </a>
                 </span>
 
@@ -722,20 +902,15 @@
       
         
           
-            <h3 id="集群介绍"><a href="#集群介绍" class="headerlink" title="集群介绍"></a>集群介绍</h3><p>集群就是部署多台服务器协同完成一项工作。</p>
-<h3 id="集群分类"><a href="#集群分类" class="headerlink" title="集群分类"></a>集群分类</h3><ul>
-<li><p>负责均衡服务器根据负载均衡算法（轮询，随机，哈希，权重等）来分发请求到不同的主服务器。 每个主服务器都是等价的，都可以完成相同的功能</p>
-<ul>
-<li>负载均衡集群典型的开源软件：lvs,nginx,haproxy,lighttpd</li>
-<li>负载均衡服务器可以是单台服务器</li>
-</ul>
-</li>
-<li><p>高可用的含义就是当一台服务器宕机后，服务可以继续使用以及数据不会丢失。 如果是负载均衡集群，当负载均衡服务器宕机后，整个服务就不可以使用了。</p>
-<ul>
-<li>高可用性集群典型常用开源软件：keepalived,heartbeat</li>
-</ul>
-</li>
-</ul>
+            <h3 id="生产环境"><a href="#生产环境" class="headerlink" title="生产环境"></a>生产环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@Nexus3 ~]# cat &#x2F;etc&#x2F;redhat-release </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">CentOS Linux release 7.7.1908 (Core)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">[root@Nexus3 ~]# docker version</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">Client:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"> Version:         1.13.1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"> API version:     1.26</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"> Package version: docker-1.13.1-103.git7f2769b.el7.centos.x86_64</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"> Go version:      go1.10.3</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"> Git commit:      7f2769b&#x2F;1.13.1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"> Built:           Sun Sep 15 14:06:47 2019</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"> OS&#x2F;Arch:         linux&#x2F;amd64</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">Server:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line"> Version:         1.13.1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"> API version:     1.26 (minimum version 1.12)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"> Package version: docker-1.13.1-103.git7f2769b.el7.centos.x86_64</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line"> Go version:      go1.10.3</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"> Git commit:      7f2769b&#x2F;1.13.1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"> Built:           Sun Sep 15 14:06:47 2019</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"> OS&#x2F;Arch:         linux&#x2F;amd64</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line"> Experimental:    false</span></pre></td></tr></table></figure>
+
+<h3 id="安装Docker服务"><a href="#安装Docker服务" class="headerlink" title="安装Docker服务"></a>安装Docker服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">yum install -y docker</span></pre></td></tr></table></figure>
+
+<h3 id="添加代理"><a href="#添加代理" class="headerlink" title="添加代理"></a>添加代理</h3><p><a href="https://docs.docker.com/config/daemon/systemd/" target="_blank" rel="noopener">官方原文(英)</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-----创建文件夹-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">mkdir -p &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;docker.service.d</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">-----修改配置文件-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">cat &gt; &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;docker.service.d&#x2F;http-proxy.conf &lt;&lt;&#39;EOF&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">[Service]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">Environment&#x3D;&quot;HTTP_PROXY&#x3D;http:&#x2F;&#x2F;10.1.46.19:3128&#x2F;&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">EOF</span></pre></td></tr></table></figure>
+
+<h3 id="国内源加速"><a href="#国内源加速" class="headerlink" title="国内源加速"></a>国内源加速</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">cat &gt; &#x2F;etc&#x2F;docker&#x2F;daemon.json &lt;&lt; &#39;EOF&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">&quot;registry-mirrors&quot;: [</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">&quot;https:&#x2F;&#x2F;kfwkfulq.mirror.aliyuncs.com&quot;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">&quot;https:&#x2F;&#x2F;2lqq34jg.mirror.aliyuncs.com&quot;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">&quot;https:&#x2F;&#x2F;pee6w651.mirror.aliyuncs.com&quot;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&quot;https:&#x2F;&#x2F;registry.docker-cn.com&quot;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&quot;http:&#x2F;&#x2F;hub-mirror.c.163.com&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">],</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">&quot;dns&quot;: [&quot;114.114.114.114&quot;,&quot;8.8.4.4&quot;]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">EOF</span></pre></td></tr></table></figure>
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">systemctl restart docker &amp;&amp; systemctl enable docker</span></pre></td></tr></table></figure>
 <h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
           
         
@@ -784,7 +959,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/02/VMware/01.%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/06/Linux/01.yum/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LeoShi">
@@ -803,7 +978,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/02/VMware/01.%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/" itemprop="url">01.命令行配置网络(esxcli)</a></h1>
+                <a class="post-title-link" href="/2019/12/06/Linux/01.yum/" itemprop="url">01.Linux CentOS7 Yum</a></h1>
         
 
         <div class="post-meta">
@@ -815,516 +990,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-02T14:49:42+08:00">
-                2019-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/vSphere6-5/" itemprop="url" rel="index">
-                    <span itemprop="name">vSphere6.5</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/esxcli/" itemprop="url" rel="index">
-                    <span itemprop="name">esxcli</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="生产需求"><a href="#生产需求" class="headerlink" title="生产需求"></a>生产需求</h3><p>一般默认使用web界面，出现一些故障依靠命令行</p>
-<ul>
-<li>由于上行链路 (vmnic) 已更改或顺序不正确，因此无法通过网络连接 ESXi/ESX 主机</li>
-<li>主服务控制台/VMkernel 管理接口已从交换机移动到不可路由的网络上的 Distributed Switch</li>
-<li>管理网络的 VLAN 已更改或在上行链路交换机端口上配置不正确</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/12/02/VMware/01.%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/02/Squid/01.squid/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="LeoShi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SpeedShark">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/02/Squid/01.squid/" itemprop="url">Squid代理服务</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-02T13:30:07+08:00">
-                2019-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/Squid/" itemprop="url" rel="index">
-                    <span itemprop="name">Squid</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Squid介绍"><a href="#Squid介绍" class="headerlink" title="Squid介绍"></a>Squid介绍</h2><p>​<br>Squid cache（简称为Squid）是流行最广的，使用最普遍的开源缓存代理服务器。squid的主要作用和应用场景有：</p>
-<ul>
-<li>用来做前置的Web缓存，加快用户访问Web的速度</li>
-<li>代理内网用户访问互联网资源</li>
-<li>设置访问控制策略，控制用户的上网行为</li>
-<li>主要支持http、ftp等应用协议</li></ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/12/02/Squid/01.squid/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/02/VMware/02.esxcli%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="LeoShi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SpeedShark">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/02/VMware/02.esxcli%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">02.esxcli常用命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-02T10:39:22+08:00">
-                2019-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/" itemprop="url" rel="index">
-                    <span itemprop="name">VMware</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/vSphere6-5/" itemprop="url" rel="index">
-                    <span itemprop="name">vSphere6.5</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VMware/esxcli/" itemprop="url" rel="index">
-                    <span itemprop="name">esxcli</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
-<li>命令行管理vSphere</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/12/02/VMware/02.esxcli%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/01/Linux/01.yum/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="LeoShi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SpeedShark">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/01/Linux/01.yum/" itemprop="url">01.Linux CentOS7 Yum</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-01T01:45:21+08:00">
-                2019-12-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-06T11:29:16+08:00">
+                2019-12-06
               </time>
             
 
@@ -1399,7 +1066,7 @@
           <h2 id="Linux-软件包管理工具"><a href="#Linux-软件包管理工具" class="headerlink" title="Linux 软件包管理工具"></a>Linux 软件包管理工具</h2><p>在生产系统中我们默认使用的Linux是最小化安装，使得服务器更加稳定。<br>生产系统中根据规模一般分为：在线(使用网络)和离线(下载到本地大规模使用)</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/12/01/Linux/01.yum/#more" rel="contents">
+            <a class="btn" href="/2019/12/06/Linux/01.yum/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1450,7 +1117,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/01/Nignx/06.nginxproxyweb/">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/06/Linux/05.lvm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LeoShi">
@@ -1469,7 +1136,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/01/Nignx/06.nginxproxyweb/" itemprop="url">06.Nginx代理上网(HTTPS经常无法访问生产系统不推荐)</a></h1>
+                <a class="post-title-link" href="/2019/12/06/Linux/05.lvm/" itemprop="url">05.lvm卷管理</a></h1>
         
 
         <div class="post-meta">
@@ -1481,8 +1148,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-01T01:44:41+08:00">
-                2019-12-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-06T11:23:50+08:00">
+                2019-12-06
               </time>
             
 
@@ -1526,8 +1193,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/Nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">Nginx</span>
+                  <a href="/categories/Linux/LVM/" itemprop="url" rel="index">
+                    <span itemprop="name">LVM</span>
                   </a>
                 </span>
 
@@ -1565,13 +1232,11 @@
 
       
         
-          <h3 id="内部服务器临时上网-生产系统不推荐使用"><a href="#内部服务器临时上网-生产系统不推荐使用" class="headerlink" title="内部服务器临时上网(生产系统不推荐使用!!!)"></a>内部服务器临时上网(生产系统不推荐使用!!!)</h3><blockquote>
-<p>为了安全服务器一般都在隔离的内网，但是有的时候Yum包，升级补丁需要上网，但是又不能全开。</p>
-<p>这个时候我们会用到Nginx另外一个功能代理上网(虽然没有Squid好用)，生产系统推荐Squid。</p>
-</blockquote>
+          <h3 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a>LVM</h3><p>LVM是逻辑盘卷管理（Logical Volume Manager）的简称，它是Linux环境下对磁盘分区进行管理的一种机制，LVM是建立在硬盘和分区之上的一个逻辑层，来提高磁盘分区管理的灵活性。LVM是在磁盘分区和文件系统之间添加的一个逻辑层，来为文件系统屏蔽下层磁盘分区布局，提供一个抽象的盘卷，在盘卷上建立文件系统。物理卷（physical volume）物理卷就是指硬盘分区或从逻辑上与磁盘分区具有同样功能的设备（如RAID），是LVM的基本存储逻辑块，但和基本的物理存储介质（如分区、磁盘等）比较，却包含有与LVM相关的管理参数。</p>
+<p>优势：<br>    能够在线扩容当前的分区容量。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/12/01/Nignx/06.nginxproxyweb/#more" rel="contents">
+            <a class="btn" href="/2019/12/06/Linux/05.lvm/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1622,7 +1287,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/01/Nignx/05.NginxFirewalld/">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/05/Nignx/04.NginxSElinux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LeoShi">
@@ -1641,7 +1306,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/01/Nignx/05.NginxFirewalld/" itemprop="url">05.NginxFirewalld让Nginx更安全(下)</a></h1>
+                <a class="post-title-link" href="/2019/12/05/Nignx/04.NginxSElinux/" itemprop="url">04.NginxSElinux安全配置(上)</a></h1>
         
 
         <div class="post-meta">
@@ -1653,8 +1318,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-01T00:23:46+08:00">
-                2019-12-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-05T20:56:55+08:00">
+                2019-12-05
               </time>
             
 
@@ -1709,8 +1374,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/CentOS7/Firewalld/" itemprop="url" rel="index">
-                    <span itemprop="name">Firewalld</span>
+                  <a href="/categories/Linux/CentOS7/SElinux/" itemprop="url" rel="index">
+                    <span itemprop="name">SElinux</span>
                   </a>
                 </span>
 
@@ -1748,13 +1413,13 @@
 
       
         
-          <h2 id="安全生产是必须的-下"><a href="#安全生产是必须的-下" class="headerlink" title="安全生产是必须的(下)"></a>安全生产是必须的(下)</h2><blockquote>
+          <h2 id="安全生产是必须的-上"><a href="#安全生产是必须的-上" class="headerlink" title="安全生产是必须的(上)"></a>安全生产是必须的(上)</h2><blockquote>
 <p>大部分运维人员为了省事放弃安全关闭SElinux、Firewalld</p>
 <p>所谓的为了提高性能只是片面的，运维安全应该放在首位</p>
 </blockquote>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/12/01/Nignx/05.NginxFirewalld/#more" rel="contents">
+            <a class="btn" href="/2019/12/05/Nignx/04.NginxSElinux/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1805,7 +1470,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/11/30/Linux/03.disableipv6/">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/04/Nignx/09.NginxLoadBalance/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LeoShi">
@@ -1824,7 +1489,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/30/Linux/03.disableipv6/" itemprop="url">03.禁用IPv6</a></h1>
+                <a class="post-title-link" href="/2019/12/04/Nignx/09.NginxLoadBalance/" itemprop="url">07.Nginx负载均衡</a></h1>
         
 
         <div class="post-meta">
@@ -1836,8 +1501,322 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-30T22:08:22+08:00">
-                2019-11-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-04T19:33:36+08:00">
+                2019-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Nginx/" itemprop="url" rel="index">
+                    <span itemprop="name">Nginx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="生产环境"><a href="#生产环境" class="headerlink" title="生产环境"></a>生产环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@nginx1 ~]# cat &#x2F;etc&#x2F;redhat-release </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">CentOS Linux release 7.7.1908 (Core)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">[root@nginx1 ~]# nginx -v</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">nginx version: nginx&#x2F;1.16.1</span></pre></td></tr></table></figure>
+
+<h3 id="负载均衡配置"><a href="#负载均衡配置" class="headerlink" title="负载均衡配置"></a>负载均衡配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">cat &gt; &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;upstream.conf &lt;&lt;&#39;EOO&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">upstream app_lb_hash &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    # 需要负载的服务器可大于2台</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    server  10.1.40.12:80 max_fails&#x3D;1  fail_timeout&#x3D;20; </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    # 最大试错1次，20s之内不再发往这台服务器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    server  10.1.40.13:80 max_fails&#x3D;1  fail_timeout&#x3D;20;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    # 哈希算法，将同一ip的请求分配到固定服务器</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    ip_hash;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">EOO</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">cat &gt; &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;wims5web.conf &lt;&lt;&#39;EOO&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">server &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    # app_web</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    listen       60150;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    server_name  localhost;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">    # 客户端上传大文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    client_max_body_size 128M;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    #charset koi8-r;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    #access_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;host.access.log  main;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    location &#x2F; &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">        # 转发到集群组</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        proxy_pass http:&#x2F;&#x2F;app_lb_hash;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        # websocket转发</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        proxy_http_version 1.1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header Upgrade $http_upgrade;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">        # 源地址转发</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header Host $host;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">    # redirect server error pages to the static page &#x2F;50x.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">    #</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">    error_page  404 500 502 503 504  &#x2F;50x.html;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    location &#x3D; &#x2F;50x.html &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">EOO</span></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/04/Nignx/08.proxywebsocket/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LeoShi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SpeedShark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/04/Nignx/08.proxywebsocket/" itemprop="url">07.Websocket转发</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-04T18:32:23+08:00">
+                2019-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Nginx/" itemprop="url" rel="index">
+                    <span itemprop="name">Nginx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="websocket转发"><a href="#websocket转发" class="headerlink" title="websocket转发"></a>websocket转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">cat &gt; &#x2F;etc&#x2F;nginx&#x2F;conf.t&#x2F;app.conf &lt;&lt;&#39;EOF&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">server &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    # Source Web</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    listen       60150;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    server_name  localhost;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    # 客户端上传大文件</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    client_max_body_size 128M;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    #charset koi8-r;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    #access_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;host.access.log  main;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    location &#x2F; &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        proxy_pass http:&#x2F;&#x2F;10.1.40.100:80;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        # websocket转发</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        proxy_http_version 1.1;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header Upgrade $http_upgrade;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        # 源地址转发</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header Host $host;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">        proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    # redirect server error pages to the static page &#x2F;50x.html</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    #</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">    error_page  404 500 502 503 504  &#x2F;50x.html;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">    location &#x3D; &#x2F;50x.html &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">EOF</span></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">[root@proxy2 conf.d]# nginx -t</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">nginx: the configuration file &#x2F;etc&#x2F;nginx&#x2F;nginx.conf syntax is ok</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">nginx: configuration file &#x2F;etc&#x2F;nginx&#x2F;nginx.conf test is successful</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">[root@proxy2 conf.d]# nginx -s reload</span></pre></td></tr></table></figure>
+
+<h3 id="静态缓存文件"><a href="#静态缓存文件" class="headerlink" title="静态缓存文件"></a>静态缓存文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">location ~ \.(jpg|png|jpeg|bmp|gif|swf|css)$</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        expires 30d;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        #静态文件存在地址，这里设置在&#x2F;usr&#x2F;share&#x2F;nginx&#x2F;cache下</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        root &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;cache;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        break;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr></table></figure>
+
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/04/Linux/04.ntp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LeoShi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SpeedShark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/04/Linux/04.ntp/" itemprop="url">04.时间同步chrony</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-04T14:49:11+08:00">
+                2019-12-04
               </time>
             
 
@@ -1909,16 +1888,14 @@
 
       
         
-          <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><blockquote>
-<p>一般中小企业用不到IPv6</p>
+          
+            <p>#时间同步</p>
+<blockquote>
+<p>运维服务器首要因素时间同步非常重要，要么自己搭建，要么同步别人</p>
 </blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/11/30/Linux/03.disableipv6/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+<p>yum install -y chrony.x86_64<br>cp /etc/chrony.conf /etc/chrony.conf.bak<br>sed -i ‘/^server/d’ /etc/chrony.conf<br>sed -i ‘2a server ntp2.aliyun.com iburst\nallow 10/8’ /etc/chrony.conf<br>systemctl start chronyd.service &amp;&amp; systemctl enable chronyd.service<br>sleep 5<br>date</p>
+
+          
         
       
     </div>
@@ -1956,7 +1933,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
   </nav>
 
 
@@ -2002,7 +1979,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2013,7 +1990,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2024,7 +2001,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

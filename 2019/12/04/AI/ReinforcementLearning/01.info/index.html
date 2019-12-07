@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="强化学习,OpenAI Gym," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="ReinforcementLearning介紹 重复动作学习，一直到如何达到最优的结果  試想一個大學生，原本總是十二點睡，但離開家住進宿舍後，每天打電動打到兩點才睡，隔天上課昏昏沉沉，GPA 0.87。某天他嘗試十點上床睡覺，發現隔天上課腦袋清晰、神采奕奕，全身舒爽的他開始慢慢調整作息，最終 GPA 4.3。從對一個新環境一無所知，不斷嘗試不同作息時間，進而藉由所獲得的好處（身心感受、GPA等）">
+<meta name="keywords" content="强化学习,OpenAI Gym">
+<meta property="og:type" content="article">
+<meta property="og:title" content="01.ReinforcementLearning介紹">
+<meta property="og:url" content="http:&#x2F;&#x2F;speedshark.github.io&#x2F;2019&#x2F;12&#x2F;04&#x2F;AI&#x2F;ReinforcementLearning&#x2F;01.info&#x2F;index.html">
+<meta property="og:site_name" content="SpeedShark">
+<meta property="og:description" content="ReinforcementLearning介紹 重复动作学习，一直到如何达到最优的结果  試想一個大學生，原本總是十二點睡，但離開家住進宿舍後，每天打電動打到兩點才睡，隔天上課昏昏沉沉，GPA 0.87。某天他嘗試十點上床睡覺，發現隔天上課腦袋清晰、神采奕奕，全身舒爽的他開始慢慢調整作息，最終 GPA 4.3。從對一個新環境一無所知，不斷嘗試不同作息時間，進而藉由所獲得的好處（身心感受、GPA等）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;speedshark.github.io&#x2F;2019&#x2F;12&#x2F;04&#x2F;AI&#x2F;ReinforcementLearning&#x2F;01.info&#x2F;168e16f6.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;speedshark.github.io&#x2F;2019&#x2F;12&#x2F;04&#x2F;AI&#x2F;ReinforcementLearning&#x2F;01.info&#x2F;f519301a.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;speedshark.github.io&#x2F;2019&#x2F;12&#x2F;04&#x2F;AI&#x2F;ReinforcementLearning&#x2F;01.info&#x2F;5cf0438b.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;speedshark.github.io&#x2F;2019&#x2F;12&#x2F;04&#x2F;AI&#x2F;ReinforcementLearning&#x2F;01.info&#x2F;60217233.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;speedshark.github.io&#x2F;2019&#x2F;12&#x2F;04&#x2F;AI&#x2F;ReinforcementLearning&#x2F;01.info&#x2F;3333a3d7.png">
+<meta property="og:updated_time" content="2019-12-04T06:33:46.624Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;speedshark.github.io&#x2F;2019&#x2F;12&#x2F;04&#x2F;AI&#x2F;ReinforcementLearning&#x2F;01.info&#x2F;168e16f6.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://speedshark.github.io/2019/12/04/AI/ReinforcementLearning/01.info/"/>
+
+
+
+
+
+  <title>01.ReinforcementLearning介紹 | SpeedShark</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SpeedShark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Easier to manage enterprise IT</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://speedshark.github.io/2019/12/04/AI/ReinforcementLearning/01.info/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LeoShi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SpeedShark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">01.ReinforcementLearning介紹</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-04T14:33:46+08:00">
+                2019-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI/" itemprop="url" rel="index">
+                    <span itemprop="name">AI</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI/ReinforcementLearning/" itemprop="url" rel="index">
+                    <span itemprop="name">ReinforcementLearning</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">强化学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI/OpenAI-Gym/" itemprop="url" rel="index">
+                    <span itemprop="name">OpenAI Gym</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+          
+            <span class="post-meta-divider">|</span>
+            <span id="busuanzi_value_page_pv"></span>次阅读
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="ReinforcementLearning介紹"><a href="#ReinforcementLearning介紹" class="headerlink" title="ReinforcementLearning介紹"></a>ReinforcementLearning介紹</h3><blockquote>
+<p>重复动作学习，一直到如何达到最优的结果</p>
+</blockquote>
+<p>試想一個大學生，原本總是十二點睡，但離開家住進宿舍後，每天打電動打到兩點才睡，隔天上課昏昏沉沉，GPA 0.87。某天他嘗試十點上床睡覺，發現隔天上課腦袋清晰、神采奕奕，全身舒爽的他開始慢慢調整作息，最終 GPA 4.3。從對一個新環境一無所知，不斷嘗試不同作息時間，進而藉由所獲得的好處（身心感受、GPA等）學會最適合自己的作息，這種學習過程便是 Reinforcement Learning。</p>
+<p>Reinforcement Learning 是 Machine Learning 家族的一員，為一種目標導向(goal-oriented)的學習方法，旨在經由與環境互動過程中獲得的各種獎勵或懲罰，學會如何做決策。</p>
+<p>reinforcement learning</p>
+<a id="more"></a>
+
+<p><img src="/2019/12/04/AI/ReinforcementLearning/01.info/168e16f6.png" alt></p>
+<p>整個決策過程的模擬有以下幾個要素：</p>
+<ol>
+<li>Agent，藉由 action 跟 environment 互動。</li>
+<li>Environment，agent 的行動範圍，根據 agent 的 action 給予不同程度的 reward。</li>
+<li>State，在特定時間點 agent 身處的狀態。</li>
+<li>Action，agent 藉由自身 policy 進行的動作。</li>
+<li>Reward，environment 給予 agent 所做 action 的獎勵或懲罰。</li>
+</ol>
+<p>Agent 的目標是藉由與 environment 不斷互動及獲得 reward，學會最佳 policy，即是 agent 根據身處的 state 決定進行最佳 action 的策略。</p>
+<p>以上是 Reinforcement Learning 的簡單介紹，欲深入了解可參考文末參考資料。</p>
+<h3 id="OpenAI-Gym-介紹"><a href="#OpenAI-Gym-介紹" class="headerlink" title="OpenAI Gym 介紹"></a>OpenAI Gym 介紹</h3><p>OpenAI Gym 是由 OpenAI 開源的 Reinforcement Learning 工具包，裡面有許多現成 environment 處理環境模擬及獎勵等等過程，讓開發者專注於演算法開發。</p>
+<p>安裝過程非常簡單，首先確保你的 Python version 在 3.5 以上，然後使用 pip 安裝：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">$ pip install gym</span></pre></td></tr></table></figure>
+
+<p>接著只需要 import gym 就能開始體驗 Reinforcement Learning。</p>
+<h3 id="演算法實作"><a href="#演算法實作" class="headerlink" title="演算法實作"></a>演算法實作</h3><p>Gym 一系列的 environment 都在<a href="https://gym.openai.com/envs/#classic_control" target="_blank" rel="noopener">這裡</a>。我們挑選 CartPole-v0 當示範，任務是維持小車上的柱子的平衡。它的 environment 只有四種 feature（小車位置，小車速度，柱子角度，柱尖速度），agent 只有兩種 action（向左移，向右移）。網路上有非常多建立在 CartPole 的範例，這邊把常見演算法整合，進階的 Deep Q-Network 則留到下一篇。</p>
+<p><img src="/2019/12/04/AI/ReinforcementLearning/01.info/f519301a.png" alt></p>
+<h3 id="Random-Action"><a href="#Random-Action" class="headerlink" title="Random Action"></a>Random Action</h3><p>首先用最簡單的例子體驗 gym 的使用 —— 無論 environment 如何，隨機進行 action，也就是隨機決定要將小車左移或右移。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">import gym</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    env &#x3D; gym.make(&#39;CartPole-v0&#39;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    # 跑 200 個 episode，每個 episode 都是一次任務嘗試</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    for i_episode in range(200):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        observation &#x3D; env.reset() # 讓 environment 重回初始狀態 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        rewards &#x3D; 0 # 累計各 episode 的 reward </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        for t in range(250): # 設個時限，每個 episode 最多跑 250 個 action</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">            env.render() # 呈現 environment</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            # Key section</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">            action &#x3D; env.action_space.sample() # 在 environment 提供的 action 中隨機挑選</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">            observation, reward, done, info &#x3D; env.step(action) # 進行 action，environment 返回該 action 的 reward 及前進下個 state</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            rewards +&#x3D; reward # 累計 reward</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            if done: # 任務結束返回 done &#x3D; True</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">                print(&#39;Episode finished after &#123;&#125; timesteps, total rewards &#123;&#125;&#39;.format(t+1, rewards))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">                break</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    env.close()</span></pre></td></tr></table></figure>
+<hr>
+<p>精華都在 Key section，agent 選擇並進行一個 action，並從 environment 中獲得 reward。可以看到 agent 並沒有任何學習行為，所以整體 reward 並不高。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">-----执行结果-------------------------</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Episode finished after 19 timesteps, total rewards 19.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Episode finished after 16 timesteps, total rewards 16.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">Episode finished after 18 timesteps, total rewards 18.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Episode finished after 45 timesteps, total rewards 45.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">Episode finished after 15 timesteps, total rewards 15.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Episode finished after 27 timesteps, total rewards 27.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">Episode finished after 15 timesteps, total rewards 15.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">Episode finished after 12 timesteps, total rewards 12.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">Episode finished after 14 timesteps, total rewards 14.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">Episode finished after 17 timesteps, total rewards 17.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">Episode finished after 35 timesteps, total rewards 35.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">Episode finished after 11 timesteps, total rewards 11.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">Episode finished after 24 timesteps, total rewards 24.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">Episode finished after 12 timesteps, total rewards 12.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">Episode finished after 10 timesteps, total rewards 10.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">Episode finished after 19 timesteps, total rewards 19.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">Episode finished after 19 timesteps, total rewards 19.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">Episode finished after 24 timesteps, total rewards 24.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">Episode finished after 14 timesteps, total rewards 14.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">Episode finished after 21 timesteps, total rewards 21.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">Episode finished after 54 timesteps, total rewards 54.0</span></pre></td></tr></table></figure>
+<h3 id="Hand-Made-Policy"><a href="#Hand-Made-Policy" class="headerlink" title="Hand-Made Policy"></a>Hand-Made Policy</h3><p>為了讓 agent 不會走得太無腦，再來引進一個簡單的 policy —— 如果柱子向左傾（角度 &lt; 0），則小車左移以維持平衡，否則右移。</p>
+<blockquote>
+<p>其實正常來說，agent 是不會知道 environment 所提供的這些 feature 和 action 各自是什麼意思，因此這一部分主要是示範 policy 的概念。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">import gym</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"># 定義 policy</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">def choose_action(observation):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    pos, v, ang, rot &#x3D; observation</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    return 0 if ang &lt; 0 else 1 # 柱子左傾則小車左移，否則右移 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    env &#x3D; gym.make(&#39;CartPole-v0&#39;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">    for i_episode in range(200):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">        observation &#x3D; env.reset() # reset environment to initial state for each episode</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        rewards &#x3D; 0 # accumulate rewards for each episode</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        for t in range(250):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">            env.render()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">            action &#x3D; choose_action(observation) # choose an action based on hand-made rule </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            observation, reward, done, info &#x3D; env.step(action) # do the action, get the reward</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">            rewards +&#x3D; reward</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">            if done:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">                print(&#39;Episode finished after &#123;&#125; timesteps, total rewards &#123;&#125;&#39;.format(t+1, rewards))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">                break</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    env.close() # need to close, or errors will be reported</span></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Episode finished after 25 timesteps, total rewards 25.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Episode finished after 38 timesteps, total rewards 38.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Episode finished after 48 timesteps, total rewards 48.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">Episode finished after 56 timesteps, total rewards 56.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Episode finished after 25 timesteps, total rewards 25.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">Episode finished after 40 timesteps, total rewards 40.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Episode finished after 39 timesteps, total rewards 39.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">Episode finished after 40 timesteps, total rewards 40.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">Episode finished after 41 timesteps, total rewards 41.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">Episode finished after 34 timesteps, total rewards 34.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">Episode finished after 25 timesteps, total rewards 25.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">Episode finished after 31 timesteps, total rewards 31.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">Episode finished after 49 timesteps, total rewards 49.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">Episode finished after 34 timesteps, total rewards 34.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">Episode finished after 52 timesteps, total rewards 52.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">Episode finished after 26 timesteps, total rewards 26.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">Episode finished after 40 timesteps, total rewards 40.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">Episode finished after 39 timesteps, total rewards 39.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">Episode finished after 49 timesteps, total rewards 49.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">Episode finished after 38 timesteps, total rewards 38.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">Episode finished after 45 timesteps, total rewards 45.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">Episode finished after 40 timesteps, total rewards 40.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">Episode finished after 37 timesteps, total rewards 37.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">Episode finished after 44 timesteps, total rewards 44.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">Episode finished after 46 timesteps, total rewards 46.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">Episode finished after 51 timesteps, total rewards 51.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">Episode finished after 56 timesteps, total rewards 56.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">Episode finished after 40 timesteps, total rewards 40.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">Episode finished after 40 timesteps, total rewards 40.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">Episode finished after 37 timesteps, total rewards 37.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">Episode finished after 42 timesteps, total rewards 42.0</span></pre></td></tr></table></figure>
+<p>可以看到 agent 所獲得的整體 reward 比 random action 高出許多，不過 agent 依然沒有根據經驗做學習，非常頑固。接下來要來示範真正實用的 learning process —— Q-learning。</p>
+<h3 id="Q-Learning-with-Q-Table"><a href="#Q-Learning-with-Q-Table" class="headerlink" title="Q-Learning with Q Table"></a>Q-Learning with Q Table</h3><p>在進入實作前，會先簡單講解 Q-learning 及 Q table 概念，可當作補充。<br>Q-Learning</p>
+<p>為了學習在某個 state 之下做出好的 action，我們定義所謂的 Q function Q(s, a)，也就是根據身處的 state s 進行 action a 所預期未來會得到的總 reward。如果能求出最佳 Q functionQ<em>(s, a)，我們的 agent 在任何 state 之下，只要挑選能最大化未來總 reward 的 action ，即 argmax_a Q</em>(s, a)，即能在任務中獲得最大 reward。而習得 Q function 的過程正是 Q-learning。</p>
+<p>在學習 Q function 前，要先知道如何表示 Q function。不難發現 Q function 有遞迴特質，可以用遞迴表示：<br><img src="/2019/12/04/AI/ReinforcementLearning/01.info/5cf0438b.png" alt></p>
+<p>即是當前 reward 和進入下一個 state s’ 後所能獲得最大 discounted reward 的和。這邊的 γ 稱為 discount factor，可以說是對未來 reward 的重視程度。γ 越低，agent 越重視當前所獲得的 reward，並覺得未來獲得的 reward 太遙遠，不足以在當前 state 的決策過程中佔有太大份量。</p>
+<p>接著 agent 要藉由一次次跟 environment 互動中獲得的 reward 來學習 Q function。起初 agent 一無所知時，Q function 的參數都是隨機的。接著從跟 environment 互動的每一步，慢慢更新參數，逼近我們要的最佳 Q function：<br><img src="/2019/12/04/AI/ReinforcementLearning/01.info/60217233.png" alt><br>這裡 learned value 是每次 action 帶來的一點新資訊，但不能直接取代舊資訊，而是每次更新 α 這麼多比率的新資訊，保留 (1 - α) 比率的舊資訊，最終逐漸收斂。</p>
+<p>整體 Q-learning 步驟大致上如下：<br><img src="/2019/12/04/AI/ReinforcementLearning/01.info/3333a3d7.png" alt></p>
+<p>ε-greedy 是一種在 exploration 和 exploitation 間取得平衡的方法。Exploration 是讓 agent 大膽嘗試不同 action，確保能夠吸收新知，而 exploitation 是讓 agent 保守沿用現有 policy，讓學習過程收斂。方法很簡單：ε 是隨機選擇 action 的機率，所以平均上有 ε 的時間 agent 會嘗試新 action，而 (1 - ε) 的時間 agent 會根據現有 policy 做決策。<br>Q Table</p>
+<p>了解 Q-learning 及 ε-greedy 的概念後，那實際上這個 Q function 存在哪裡呢？一個樸實無華的方法就是把各個 state-action pair 的 Q value 存在 table 裡，直接查找或更新，即是所謂 Q table，也是接下來要示範的方法。不過這個方法的壞處是 table 大小有限，不適用於 state 和 action 過多的任務。</p>
+<p>另一個方法是用 neural network 去逼近 Q function，即 Deep Q-Learning，如此一來就不會有容量限制了。這個方法會在之後另寫文章介紹。</p>
+<p>先統整一下。我們的目標是學習到最佳 Q function，過程中以 ε-greedy 方法與 environment 互動，從中獲得 reward 以更新 Q table 裡的 Q value。先看一下基於 ε-greedy 的 policy 定義：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">def choose_action(state, q_table, action_space, epsilon):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    if np.random.random_sample() &lt; epsilon: # 有 ε 的機率會選擇隨機 action</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">        return action_space.sample() </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    else: # 其他時間根據現有 policy 選擇 action，也就是在 Q table 裡目前 state 中，選擇擁有最大 Q value 的 action</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        return np.argmax(q_table[state])</span></pre></td></tr></table></figure>
+<p>再來是 state 的表示。在 CartPole 環境裡觀察到的 feature 都是連續值，不適合作為一個 table 的 index，因此要將一個區間一個區間的值包在一起用離散數值表示，也就是下面的 bucket：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">def get_state(observation, n_buckets, state_bounds):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    state &#x3D; [0] * len(observation) </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    for i, s in enumerate(observation): # 每個 feature 有不同的分配</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        l, u &#x3D; state_bounds[i][0], state_bounds[i][1] # 每個 feature 值的範圍上下限</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        if s &lt;&#x3D; l: # 低於下限，分配為 0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">            state[i] &#x3D; 0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        elif s &gt;&#x3D; u: # 高於上限，分配為最大值</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">            state[i] &#x3D; n_buckets[i] - 1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        else: # 範圍內，依比例分配</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">            state[i] &#x3D; int(((s - l) &#x2F; (u - l)) * n_buckets[i])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">    return tuple(state)</span></pre></td></tr></table></figure>
+<p>最後是學習。學習過程中為了方便收斂，一些參數像 ε 和 learning rate 會隨著時間遞減，也就是我們從大膽亂走，到越來越相信已經學到的經驗。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">env &#x3D; gym.make(&#39;CartPole-v0&#39;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"># 準備 Q table</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">## Environment 中各個 feature 的 bucket 分配數量</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">## 1 代表任何值皆表同一 state，也就是這個 feature 其實不重要</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">n_buckets &#x3D; (1, 1, 6, 3)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">## Action 數量 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">n_actions &#x3D; env.action_space.n</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">## State 範圍 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">state_bounds &#x3D; list(zip(env.observation_space.low, env.observation_space.high))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">state_bounds[1] &#x3D; [-0.5, 0.5]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">state_bounds[3] &#x3D; [-math.radians(50), math.radians(50)]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">## Q table，每個 state-action pair 存一值 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">q_table &#x3D; np.zeros(n_buckets + (n_actions,))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line"># 一些學習過程中的參數</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">get_epsilon &#x3D; lambda i: max(0.01, min(1, 1.0 - math.log10((i+1)&#x2F;25)))  # epsilon-greedy; 隨時間遞減</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">get_lr &#x3D; lambda i: max(0.01, min(0.5, 1.0 - math.log10((i+1)&#x2F;25))) # learning rate; 隨時間遞減 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">gamma &#x3D; 0.99 # reward discount factor</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line"># Q-learning</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">for i_episode in range(200):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">    epsilon &#x3D; get_epsilon(i_episode)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    lr &#x3D; get_lr(i_episode)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    observation &#x3D; env.reset()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    rewards &#x3D; 0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    state &#x3D; get_state(observation, n_buckets, state_bounds) # 將連續值轉成離散 </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">    for t in range(250):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line">        env.render()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">        action &#x3D; choose_action(state, q_table, env.action_space, epsilon)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line">        observation, reward, done, info &#x3D; env.step(action)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">        rewards +&#x3D; reward</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">        next_state &#x3D; get_state(observation, n_buckets, state_bounds)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">        # 更新 Q table</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">        q_next_max &#x3D; np.amax(q_table[next_state]) # 進入下一個 state 後，預期得到最大總 reward</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">        q_table[state + (action,)] +&#x3D; lr * (reward + gamma * q_next_max - q_table[state + (action,)]) # 就是那個公式</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">        # 前進下一 state </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">        state &#x3D; next_state</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">        if done:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line">            print(&#39;Episode finished after &#123;&#125; timesteps, total rewards &#123;&#125;&#39;.format(t+1, rewards))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">            break</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">env.close()</span></pre></td></tr></table></figure>
+<p>整个脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">import math</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">import gym</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">import numpy as np</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">def choose_action(state, q_table, action_space, epsilon):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    if np.random.random_sample() &lt; epsilon: # random action</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">        return action_space.sample() </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    else: # greddy action based on Q table</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">        return np.argmax(q_table[state]) </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">def get_state(observation, n_buckets, state_bounds):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">    state &#x3D; [0] * len(observation) </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">    for i, s in enumerate(observation):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        l, u &#x3D; state_bounds[i][0], state_bounds[i][1] # lower- and upper-bounds for each feature in observation</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        if s &lt;&#x3D; l:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">            state[i] &#x3D; 0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">        elif s &gt;&#x3D; u:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">            state[i] &#x3D; n_buckets[i] - 1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">        else:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">            state[i] &#x3D; int(((s - l) &#x2F; (u - l)) * n_buckets[i])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">    return tuple(state)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    env &#x3D; gym.make(&#39;CartPole-v0&#39;)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">    # Preparing Q table</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">30</span></pre></td><td class="code"><pre><span class="line">    ## buckets for continuous state values to be assigned to</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">31</span></pre></td><td class="code"><pre><span class="line">    n_buckets &#x3D; (1, 1, 6, 3) # Observation space: [position of cart, velocity of cart, angle of pole, rotation rate of pole]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">32</span></pre></td><td class="code"><pre><span class="line">                             # Setting bucket size to 1 &#x3D; ignoring the particular observation state </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">33</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">34</span></pre></td><td class="code"><pre><span class="line">    ## discrete actions</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">35</span></pre></td><td class="code"><pre><span class="line">    n_actions &#x3D; env.action_space.n</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">36</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">37</span></pre></td><td class="code"><pre><span class="line">    ## state bounds</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">38</span></pre></td><td class="code"><pre><span class="line">    state_bounds &#x3D; list(zip(env.observation_space.low, env.observation_space.high))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">39</span></pre></td><td class="code"><pre><span class="line">    state_bounds[1] &#x3D; [-0.5, 0.5]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">40</span></pre></td><td class="code"><pre><span class="line">    state_bounds[3] &#x3D; [-math.radians(50), math.radians(50)]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">41</span></pre></td><td class="code"><pre><span class="line">    </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">42</span></pre></td><td class="code"><pre><span class="line">    ## init Q table for each state-action pair</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">43</span></pre></td><td class="code"><pre><span class="line">    q_table &#x3D; np.zeros(n_buckets + (n_actions,))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">44</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">45</span></pre></td><td class="code"><pre><span class="line">    # Learning related constants; factors determined by trial-and-error</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">46</span></pre></td><td class="code"><pre><span class="line">    get_epsilon &#x3D; lambda i: max(0.01, min(1, 1.0 - math.log10((i+1)&#x2F;25))) # epsilon-greedy, factor to explore randomly; discounted over time</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">47</span></pre></td><td class="code"><pre><span class="line">    get_lr &#x3D; lambda i: max(0.01, min(0.5, 1.0 - math.log10((i+1)&#x2F;25))) # learning rate; discounted over time</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">48</span></pre></td><td class="code"><pre><span class="line">    gamma &#x3D; 0.99 # reward discount factor</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">49</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">50</span></pre></td><td class="code"><pre><span class="line">    # Q-learning</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">51</span></pre></td><td class="code"><pre><span class="line">    for i_episode in range(200):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">52</span></pre></td><td class="code"><pre><span class="line">        epsilon &#x3D; get_epsilon(i_episode)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">53</span></pre></td><td class="code"><pre><span class="line">        lr &#x3D; get_lr(i_episode)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">54</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">55</span></pre></td><td class="code"><pre><span class="line">        observation &#x3D; env.reset() # reset environment to initial state for each episode</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">56</span></pre></td><td class="code"><pre><span class="line">        rewards &#x3D; 0 # accumulate rewards for each episode</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">57</span></pre></td><td class="code"><pre><span class="line">        state &#x3D; get_state(observation, n_buckets, state_bounds) # turn observation into discrete state</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">58</span></pre></td><td class="code"><pre><span class="line">        for t in range(250):</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">59</span></pre></td><td class="code"><pre><span class="line">            env.render()</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">60</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">61</span></pre></td><td class="code"><pre><span class="line">            # Agent takes action</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">62</span></pre></td><td class="code"><pre><span class="line">            action &#x3D; choose_action(state, q_table, env.action_space, epsilon) # choose an action based on q_table </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">63</span></pre></td><td class="code"><pre><span class="line">            observation, reward, done, info &#x3D; env.step(action) # do the action, get the reward</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">64</span></pre></td><td class="code"><pre><span class="line">            rewards +&#x3D; reward</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">65</span></pre></td><td class="code"><pre><span class="line">            next_state &#x3D; get_state(observation, n_buckets, state_bounds)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">66</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">67</span></pre></td><td class="code"><pre><span class="line">            # Agent learns via Q-learning</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">68</span></pre></td><td class="code"><pre><span class="line">            q_next_max &#x3D; np.amax(q_table[next_state])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">69</span></pre></td><td class="code"><pre><span class="line">            q_table[state + (action,)] +&#x3D; lr * (reward + gamma * q_next_max - q_table[state + (action,)])</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">70</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">71</span></pre></td><td class="code"><pre><span class="line">            # Transition to next state</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">72</span></pre></td><td class="code"><pre><span class="line">            state &#x3D; next_state</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">73</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">74</span></pre></td><td class="code"><pre><span class="line">            if done:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">75</span></pre></td><td class="code"><pre><span class="line">                print(&#39;Episode finished after &#123;&#125; timesteps, total rewards &#123;&#125;&#39;.format(t+1, rewards))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">76</span></pre></td><td class="code"><pre><span class="line">                break</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">77</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">78</span></pre></td><td class="code"><pre><span class="line">    env.close() # need to close, or errors will be reported</span></pre></td></tr></table></figure>
+<p>這邊其實偷偷作弊，才會知道哪個 feature 重要哪個不重要，以及 state 的上下限。參數也是原作者調整過的。不過如此一來才能展現好結果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">Episode finished after 200 timesteps, total rewards 200.0</span></pre></td></tr></table></figure>
+<p>可以看到在訓練後期，agent 已經學會如何最大化自己的 reward，也就是維持住小車上的棒子了。</p>
+<h2 id="END"><a href="#END" class="headerlink" title="END"></a>END</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 强化学习</a>
+          
+            <a href="/tags/OpenAI-Gym/" rel="tag"># OpenAI Gym</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/04/Network/01.l2tpvpn/" rel="next" title="01.liberswan L2TP VPN（ERROR）">
+                <i class="fa fa-chevron-left"></i> 01.liberswan L2TP VPN（ERROR）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/04/Linux/04.ntp/" rel="prev" title="04.时间同步chrony">
+                04.时间同步chrony <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="LeoShi" />
+          <p class="site-author-name" itemprop="name">LeoShi</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ReinforcementLearning介紹"><span class="nav-text">ReinforcementLearning介紹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenAI-Gym-介紹"><span class="nav-text">OpenAI Gym 介紹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#演算法實作"><span class="nav-text">演算法實作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Random-Action"><span class="nav-text">Random Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hand-Made-Policy"><span class="nav-text">Hand-Made Policy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q-Learning-with-Q-Table"><span class="nav-text">Q-Learning with Q Table</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#END"><span class="nav-text">END</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">LeoShi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Pisces
+  </a>
+</div>
+
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+  本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+  <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+  有<span id="busuanzi_value_site_uv"></span>人看过我的博客啦
+</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
